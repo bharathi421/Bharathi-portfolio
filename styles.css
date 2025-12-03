@@ -1,0 +1,19 @@
+.banner{
+   background-image: url(/portfolio/images/mac2.jpg);
+   background-size: cover;
+   background-repeat: no-repeat;
+   padding: 120px 0px 250px 0px;
+   color: white;
+   
+}
+.ibanner{
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+.text_para{
+   font-size: larger;
+   
+}
+.pic{
+   margin-left: 50px;
+}
