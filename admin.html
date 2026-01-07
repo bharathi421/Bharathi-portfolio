@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bharathi – Admin Inbox</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:#f4f6f8;}
+.container{max-width:720px;margin-top:40px;}
+.card{margin-bottom:15px;}
+.reply-box{background:#e9f1ff;padding:8px;border-radius:6px;margin-top:8px;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h3>📥 Admin Inbox</h3>
+<div id="messages"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+if ("Notification" in window) {
+  Notification.requestPermission();
+}
+
+var firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "bharathi-portfolio-chat.firebaseapp.com",
+  databaseURL: "https://bharathi-portfolio-chat-default-rtdb.firebaseio.com",
+  projectId: "bharathi-portfolio-chat"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+var database = firebase.database();
+var container = document.getElementById("messages");
+
+/* LOAD MESSAGES */
+database.ref("messages").on("child_added", function(snapshot) {
+  var id = snapshot.key;
+  var data = snapshot.val();
+
+  var card = document.createElement("div");
+  card.className = "card p-3";
+
+  card.innerHTML = `
+    <b>${data.name}</b>
+    <p>${data.message}</p>
+
+    ${data.reply ? `<div class="reply-box"><b>You:</b> ${data.reply}</div>` : ""}
+
+    <input type="text" class="form-control mt-2" placeholder="Type reply..." id="reply-${id}">
+    <button class="btn btn-primary btn-sm mt-2" onclick="sendReply('${id}')">Reply</button>
+  `;
+
+  container.prepend(card);
+});
+
+/* SEND REPLY */
+function sendReply(id) {
+  var replyText = document.getElementById("reply-" + id).value.trim();
+
+  if (!replyText) {
+    alert("Type a reply");
+    return;
+  }
+
+  database.ref("messages/" + id).update({
+    reply: replyText
+  });
+
+  alert("Reply sent ✅");
+}
+
+/* NOTIFICATION */
+database.ref("messages").limitToLast(1).on("child_added", function(snapshot) {
+  var data = snapshot.val();
+
+  if (Notification.permission === "granted") {
+    new Notification("New message 💬", {
+      body: data.name + ": " + data.message
+    });
+  }
+});
+</script>
+
+</body>
+</html>
