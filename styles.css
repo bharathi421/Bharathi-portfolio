@@ -1,19 +1,30 @@
-.banner{
+.banner {
    background-image: url('./images/IMG_8475.WEBP');
    background-size: cover;
    background-repeat: no-repeat;
    padding: 170px 0px 320px 0px;
    color: white;
-   
+
 }
-.ibanner{
+
+.ibanner {
    background-size: cover;
    background-repeat: no-repeat;
 }
-.text_para{
+
+.text_para {
    font-size: larger;
-   
+
 }
-.pic{
+
+.pic {
    margin-left: 50px;
+}
+
+.high {
+   color: yellow;
+}
+
+.light {
+   color: #8e43fe;
 }
