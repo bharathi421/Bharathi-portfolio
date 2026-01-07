@@ -1,0 +1,51 @@
+<!--when i started a project in fri 2 jan 2026 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student performance analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+             <h1>Welcome to my <span class="high">stu</span><span class="light">Track</span> Application</h1>
+            <nav>
+                <ul>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <h2>Add new section</h2>
+
+    <input type="text" placeholder="Student Name" id="Name">
+    <br><br>
+    <input type="text" placeholder="Student Rollnumber" id="Rollnumber">
+    <br><br>
+    <input type="text" placeholder="Student Class" id="Class">
+    <br><br>
+    <input type="text" placeholder="Student Address" id="Address">
+    <br><br>
+    <input type="number" placeholder="Student Attendance %" id="Attendance">
+    <br><br>
+    <input type="number" placeholder="Student Score %" id="Score">
+    <br><br>
+    <button onclick="addstudent()">Add Student</button>
+    <br><br>
+    <hr>
+
+    <h2>Student List</h2>
+    <div id="studentList"></div>
+    <footer>
+        <p>&copy; 2026 stuTrack. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
