@@ -1,53 +1,83 @@
-function addstudent() {
-    const name = document.getElementById('Name').value;
-    const rollnumber = document.getElementById('Rollnumber').value;
-    const className = document.getElementById('Class').value;
-    const address = document.getElementById('Address').value;
-    const attendance = document.getElementById('Attendance').value;
-    const score = document.getElementById('Score').value;
+let currentClass = "";
+let data = JSON.parse(localStorage.getItem("students")) || {};
 
-    const student = {
-        name,
-        rollnumber,
-        className,
-        address,
-        attendance,
-        score
-    };
+/* CHANGE CLASS */
+function changeClass() {
+  currentClass = document.getElementById("classSelect").value;
 
-    let students = JSON.parse(localStorage.getItem("classA")) || [];
-    students.push(student);
-    localStorage.setItem('classA', JSON.stringify(students));
+  if (!currentClass) return;
 
-    alert('Student added successfully!');
-}
-function displayStudents() {
-    const students = JSON.parse(localStorage.getItem("classA")) || [];
-    const ListDiv = document.getElementById('studentList');
+  document.getElementById("addSection").classList.remove("hidden");
+  document.getElementById("listSection").classList.remove("hidden");
+  document.getElementById("classTitle").innerText = currentClass + " Students";
 
-    ListDiv.innerHTML = '';
-    students.forEach((student, index) => {
-        ListDiv.innerHTML += `
-            <div>
-                <h3>Student ${index + 1}</h3>
-                <p>Name : ${student.name}</p>
-                <p>Roll Number : ${student.rollnumber}</p>
-                <p>Class : ${student.className}</p>
-                <p>Address : ${student.address}</p>
-                <p>Attendance : ${student.attendance}%</p>
-                <button onclick="deleteStudent(${index})">Delete</button>
-                
-            </div>
-            <hr>
-        `;
-    });
+  if (!data[currentClass]) {
+    data[currentClass] = [];
+  }
+
+  showAll();
 }
 
-window.onload = displayStudents;
+/* ADD STUDENT */
+function addStudent() {
+  if (!currentClass) {
+    alert("Select class first");
+    return;
+  }
 
-function deleteStudent(index) {
-    let students = JSON.parse(localStorage.getItem("classA")) || [];
-    students.splice(index, 1);
-    localStorage.setItem('classA', JSON.stringify(students));
-    displayStudents();
-}   
+  const student = {
+    name: Name.value,
+    roll: Rollnumber.value,
+    address: Address.value,
+    attendance: Number(Attendance.value),
+    score: Number(Score.value)
+  };
+
+  data[currentClass].push(student);
+  localStorage.setItem("students", JSON.stringify(data));
+
+  Name.value = Rollnumber.value = Address.value = Attendance.value = Score.value = "";
+  showAll();
+}
+
+/* PERFORMANCE */
+function performance(score) {
+  if (score < 50) return "Weak";
+  if (score < 75) return "Average";
+  return "Strong";
+}
+
+/* SHOW ALL */
+function showAll() {
+  render(data[currentClass]);
+}
+
+/* SHOW WEAK */
+function showWeak() {
+  const weak = data[currentClass].filter(s => s.score < 50);
+  render(weak);
+}
+
+/* RENDER */
+function render(list) {
+  const box = document.getElementById("studentList");
+  box.innerHTML = "";
+
+  if (!list.length) {
+    box.innerHTML = "<p>No students</p>";
+    return;
+  }
+
+  list.forEach(s => {
+    const p = performance(s.score);
+    box.innerHTML += `
+      <div class="card">
+        <h3>${s.name}</h3>
+        <p>Roll: ${s.roll}</p>
+        <p>Attendance: ${s.attendance}%</p>
+        <p>Score: ${s.score}%</p>
+        <span class="badge ${p.toLowerCase()}">${p}</span>
+      </div>
+    `;
+  });
+}
