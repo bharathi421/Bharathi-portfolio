@@ -1,24 +1,15 @@
 let currentClass = "";
 let data = JSON.parse(localStorage.getItem("students")) || {};
 
-/* CHANGE CLASS */
 function changeClass() {
-  currentClass = document.getElementById("classSelect").value;
-
+  currentClass = classSelect.value;
   if (!currentClass) return;
 
-  document.getElementById("addSection").classList.remove("hidden");
-  document.getElementById("listSection").classList.remove("hidden");
-  document.getElementById("classTitle").innerText = currentClass + " Students";
-
-  if (!data[currentClass]) {
-    data[currentClass] = [];
-  }
-
+  if (!data[currentClass]) data[currentClass] = [];
+  classTitle.innerText = currentClass + " Students";
   showAll();
 }
 
-/* ADD STUDENT */
 function addStudent() {
   if (!currentClass) {
     alert("Select class first");
@@ -26,12 +17,17 @@ function addStudent() {
   }
 
   const student = {
-    name: Name.value,
-    roll: Rollnumber.value,
-    address: Address.value,
+    name: Name.value.trim(),
+    roll: Rollnumber.value.trim(),
+    address: Address.value.trim(),
     attendance: Number(Attendance.value),
     score: Number(Score.value)
   };
+
+  if (!student.name || !student.roll) {
+    alert("Fill all fields");
+    return;
+  }
 
   data[currentClass].push(student);
   localStorage.setItem("students", JSON.stringify(data));
@@ -40,44 +36,39 @@ function addStudent() {
   showAll();
 }
 
-/* PERFORMANCE */
-function performance(score) {
+function status(score) {
   if (score < 50) return "Weak";
   if (score < 75) return "Average";
   return "Strong";
 }
 
-/* SHOW ALL */
 function showAll() {
   render(data[currentClass]);
 }
 
-/* SHOW WEAK */
 function showWeak() {
-  const weak = data[currentClass].filter(s => s.score < 50);
-  render(weak);
+  render(data[currentClass].filter(s => s.score < 50));
 }
 
-/* RENDER */
 function render(list) {
-  const box = document.getElementById("studentList");
-  box.innerHTML = "";
+  const body = document.getElementById("studentTable");
+  body.innerHTML = "";
 
   if (!list.length) {
-    box.innerHTML = "<p>No students</p>";
+    body.innerHTML = `<tr><td colspan="5" class="empty">No students</td></tr>`;
     return;
   }
 
   list.forEach(s => {
-    const p = performance(s.score);
-    box.innerHTML += `
-      <div class="card">
-        <h3>${s.name}</h3>
-        <p>Roll: ${s.roll}</p>
-        <p>Attendance: ${s.attendance}%</p>
-        <p>Score: ${s.score}%</p>
-        <span class="badge ${p.toLowerCase()}">${p}</span>
-      </div>
+    const st = status(s.score);
+    body.innerHTML += `
+      <tr>
+        <td>${s.name}</td>
+        <td>${s.roll}</td>
+        <td>${s.attendance}%</td>
+        <td>${s.score}%</td>
+        <td><span class="badge ${st.toLowerCase()}">${st}</span></td>
+      </tr>
     `;
   });
 }
