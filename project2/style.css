@@ -1,3 +1,11 @@
+/* ================= RESET ================= */
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -5,44 +13,59 @@
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
+/* ================= BODY ================= */
+
 body {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: #f4f6fb;
   color: #0f172a;
 }
 
+/* ================= HEADER ================= */
 
-/* HEADER */
 .header {
+  width: 100%;
   background: #0f172a;
-  color: #fff;
 }
 
-.container {
+.header .container {
   max-width: 1100px;
-  margin: auto;
-  padding: 14px;
+  margin: 0 auto;
+  padding: 14px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header h1 {
+  color: #ffffff;
+  font-size: 28px;
+  white-space: normal;
 }
 
 .header span {
   color: #38bdf8;
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 20px;
+nav {
+  display: flex;
 }
 
-/* CLASS BAR */
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 15px;
+}
+
+/* ================= CLASS BAR ================= */
+
 .class-bar {
+  width: 100%;
   max-width: 1100px;
   margin: 20px auto;
+  padding: 0 16px;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -52,20 +75,25 @@ select {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #cbd5e1;
+  min-width: 160px;
 }
 
-/* DASHBOARD */
+/* ================= DASHBOARD ================= */
+
 .dashboard {
+  width: 100%;
   max-width: 1100px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 0 16px;
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
 }
 
-/* PANELS */
+/* ================= PANELS ================= */
+
 .panel {
-  background: #fff;
+  background: #ffffff;
   padding: 16px;
   border-radius: 14px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
@@ -78,7 +106,8 @@ select {
   margin-bottom: 10px;
 }
 
-/* TABLE */
+/* ================= TABLE ================= */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -87,6 +116,7 @@ table {
 th, td {
   padding: 10px;
   border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
 }
 
 th {
@@ -99,7 +129,8 @@ th {
   color: #64748b;
 }
 
-/* INPUTS */
+/* ================= INPUTS ================= */
+
 input {
   width: 100%;
   padding: 10px;
@@ -108,13 +139,14 @@ input {
   border: 1px solid #cbd5e1;
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
+
 button {
   padding: 8px 14px;
   border: none;
   border-radius: 8px;
   background: #2563eb;
-  color: white;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -127,11 +159,12 @@ button.danger {
   background: #dc2626;
 }
 
-/* STATUS */
+/* ================= STATUS BADGES ================= */
+
 .badge {
   padding: 4px 10px;
   border-radius: 20px;
-  color: #fff;
+  color: #ffffff;
   font-size: 13px;
 }
 
@@ -139,19 +172,62 @@ button.danger {
 .average { background: #f59e0b; }
 .strong { background: #16a34a; }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
+
 .footer {
+  width: 100%;
   margin-top: auto;
   background: #0f172a;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
-  padding: 12px;
+  padding: 12px 16px;
 }
 
+/* ================= RESPONSIVE ================= */
 
-/* RESPONSIVE */
 @media (max-width: 900px) {
   .dashboard {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .header .container {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 0 10px;
+  }
+
+  .class-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 12px;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
